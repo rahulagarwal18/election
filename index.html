@@ -9,10 +9,23 @@
   <meta name="description" content="नगर परिषद ब्यावर चुनाव 2026 - मतदान तिथि: 9 सितंबर 2026 | वार्ड नं. 5 से पार्षद पद हेतु रूपेश भारद्वाज। 6 प्रमुख संकल्प पत्र एवं मतदाता सूची देखें।" />
   <meta name="theme-color" content="#07101e" />
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+
   <!-- Google Fonts: Mukta & Yatra One -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Yatra+One&display=swap" rel="stylesheet" />
+
+  <!-- Silence CDN warning in production console -->
+  <script>
+    const _origWarn = console.warn;
+    console.warn = function(...args) {
+      if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) return;
+      _origWarn.apply(console, args);
+    };
+  </script>
 
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -26,9 +39,6 @@
   <!-- AOS Animation CSS & JS -->
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-
-  <!-- Supabase Cloud Database Client -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
     tailwind.config = {
