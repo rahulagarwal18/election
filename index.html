@@ -211,74 +211,108 @@
     </div>
   </section>
 
-  <!-- ================= VOTER LIST PDF PORTAL (Downloads/blo.pdf) ================= -->
+  <!-- ================= VOTER LIST PDF PORTAL (Part 01 & Part 02) ================= -->
   <section id="voter-list" class="py-12 sm:py-16 bg-white border-b border-slate-200">
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
       
       <div data-aos="fade-up" class="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-10 border border-amber-500/30 shadow-2xl">
         
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <div class="text-center md:text-left mb-8">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/30 text-xs font-bold mb-3">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400"></i>
+            <span>मतदाता सहायता एवं आधिकारिक सूची पोर्टल</span>
+          </div>
+
+          <h2 class="font-yatra text-2xl sm:text-4xl text-white mb-2">
+            वार्ड नं. 5 आधिकारिक मतदाता सूची (Voter List PDF)
+          </h2>
+
+          <p class="text-xs sm:text-sm text-slate-300 max-w-2xl">
+            वार्ड नं. 5 के सभी सम्मानीय मतदाता भाई-बहन अपने संबंधित भाग (भाग 01 अथवा भाग 02) की मतदाता सूची सीधे ऑनलाइन देखें अथवा PDF डाउनलोड करें।
+          </p>
+        </div>
+
+        <!-- 2-Part Voter List Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          <div class="md:col-span-8 space-y-4 text-center md:text-left">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/30 text-xs font-bold">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400"></i>
-              <span>मतदाता सहायता एवं सुविधा पोर्टल</span>
+          <!-- PART 01 CARD -->
+          <div class="bg-slate-800/80 rounded-2xl p-5 border-2 border-amber-500/40 hover:border-amber-400 transition-all flex flex-col justify-between shadow-lg">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-3 py-1 rounded-full bg-orange-600 text-white text-xs font-bold shadow-sm">
+                  भाग संख्या: 01 (Part 1)
+                </span>
+                <span class="text-[11px] text-amber-300 font-mono font-bold">वार्ड नं. 5</span>
+              </div>
+
+              <h3 class="font-yatra text-lg sm:text-xl text-white mb-1">
+                मतदाता सूची — भाग 01
+              </h3>
+              <p class="text-xs text-slate-300 mb-4">
+                नगर परिषद ब्यावर, वार्ड 5 की आधिकारिक बीएलओ मतदाता सूची (भाग 01)।
+              </p>
+
+              <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-700 text-xs text-slate-300 space-y-1.5 mb-4">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-400">दस्तावेज़:</span>
+                  <span class="font-bold text-white">blo.pdf (भाग 01)</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-400">मतदान तिथि:</span>
+                  <span class="font-bold text-amber-400">09 सितंबर 2026</span>
+                </div>
+              </div>
             </div>
 
-            <h2 class="font-yatra text-2xl sm:text-4xl text-white">
-              वार्ड नं. 5 मतदाता सूची (Voter List PDF)
-            </h2>
-
-            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              वार्ड नं. 5 के सभी सम्मानीय मतदाता भाई-बहन नीचे दिए गए बटन पर क्लिक करके अपनी आधिकारिक मतदाता सूची (blo.pdf) डाउनलोड करें अथवा ऑनलाइन जांचें।
-            </p>
-
-            <div class="space-y-2 pt-2 text-xs text-slate-300">
-              <div class="flex items-center gap-2 justify-center md:justify-start">
-                <i data-lucide="map-pin" class="w-4 h-4 text-amber-400"></i>
-                <span><strong>मतदान केंद्र:</strong> राजकीय उच्च प्राथमिक विद्यालय, ब्यावर</span>
-              </div>
-              <div class="flex items-center gap-2 justify-center md:justify-start">
-                <i data-lucide="calendar" class="w-4 h-4 text-amber-400"></i>
-                <span><strong>मतदान तिथि:</strong> 09 सितंबर 2026</span>
-              </div>
-            </div>
-
-            <div class="pt-3 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
-              <a href="assets/docs/blo.pdf" target="_blank" class="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 font-bold text-sm shadow-md flex items-center justify-center gap-2 hover:brightness-110 active:scale-95 transition-all">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+              <a href="assets/docs/blo.pdf" target="_blank" class="py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 font-bold text-xs shadow-md flex items-center justify-center gap-1.5 hover:brightness-110 active:scale-95 transition-all">
                 <i data-lucide="eye" class="w-4 h-4"></i>
-                <span>वोटर लिस्ट PDF खोलें (blo.pdf)</span>
+                <span>भाग 01 खोलें</span>
               </a>
-
-              <a href="assets/docs/blo.pdf" download="Ward_5_Voter_List_Beawar.pdf" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/20 flex items-center justify-center gap-2 transition-all">
+              <a href="assets/docs/blo.pdf" download="Ward_5_Voter_List_Part_01_Beawar.pdf" class="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 flex items-center justify-center gap-1.5 transition-all">
                 <i data-lucide="download" class="w-4 h-4"></i>
-                <span>PDF डाउनलोड करें</span>
+                <span>PDF डाउनलोड</span>
               </a>
             </div>
           </div>
 
-          <div class="md:col-span-4 flex justify-center">
-            <div class="bg-white text-slate-900 rounded-2xl p-4 shadow-xl border-2 border-amber-400 w-full max-w-xs text-center">
-              <div class="w-10 h-10 rounded-xl bg-red-600 text-white mx-auto flex items-center justify-center font-bold text-xs mb-2 shadow-sm">
-                PDF
-              </div>
-              <div class="font-bold text-xs text-slate-900">वार्ड संख्या: 05</div>
-              <div class="text-[10px] text-slate-500 mb-3">नगर परिषद ब्यावर (blo.pdf)</div>
-              
-              <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-[11px] text-slate-700 space-y-1 mb-3 text-left">
-                <div class="flex justify-between">
-                  <span>फाइल:</span>
-                  <span class="font-bold text-slate-900">blo.pdf</span>
-                </div>
-                <div class="flex justify-between">
-                  <span>मतदान तिथि:</span>
-                  <span class="font-bold text-orange-600">09 सितंबर 2026</span>
-                </div>
+          <!-- PART 02 CARD -->
+          <div class="bg-slate-800/80 rounded-2xl p-5 border-2 border-amber-500/40 hover:border-amber-400 transition-all flex flex-col justify-between shadow-lg">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-3 py-1 rounded-full bg-amber-500 text-slate-950 font-bold text-xs shadow-sm">
+                  भाग संख्या: 02 (Part 2)
+                </span>
+                <span class="text-[11px] text-amber-300 font-mono font-bold">वार्ड नं. 5</span>
               </div>
 
-              <a href="assets/docs/blo.pdf" target="_blank" class="w-full py-2 bg-slate-900 hover:bg-slate-800 text-amber-300 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
-                <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
-                <span>यहाँ क्लिक करके PDF खोलें</span>
+              <h3 class="font-yatra text-lg sm:text-xl text-white mb-1">
+                मतदाता सूची — भाग 02
+              </h3>
+              <p class="text-xs text-slate-300 mb-4">
+                नगर परिषद ब्यावर, वार्ड 5 की आधिकारिक बीएलओ मतदाता सूची (भाग 02)।
+              </p>
+
+              <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-700 text-xs text-slate-300 space-y-1.5 mb-4">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-400">दस्तावेज़:</span>
+                  <span class="font-bold text-white">blo_part2.pdf (भाग 02)</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-400">मतदान तिथि:</span>
+                  <span class="font-bold text-amber-400">09 सितंबर 2026</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+              <a href="assets/docs/blo_part2.pdf" target="_blank" class="py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 font-bold text-xs shadow-md flex items-center justify-center gap-1.5 hover:brightness-110 active:scale-95 transition-all">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+                <span>भाग 02 खोलें</span>
+              </a>
+              <a href="assets/docs/blo_part2.pdf" download="Ward_5_Voter_List_Part_02_Beawar.pdf" class="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 flex items-center justify-center gap-1.5 transition-all">
+                <i data-lucide="download" class="w-4 h-4"></i>
+                <span>PDF डाउनलोड</span>
               </a>
             </div>
           </div>
