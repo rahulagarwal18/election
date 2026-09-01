@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>सुरक्षित एडमिन पोर्टल | रूपेश भारद्वाज - वार्ड 5, ब्यावर</title>
+  
+  <!-- Google Fonts: Mukta & Yatra One -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Yatra+One&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Supabase Cloud Database Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      font-family: 'Mukta', sans-serif;
+    }
+    .font-yatra {
+      font-family: 'Yatra One', cursive;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between">
+
+  <!-- ================= LOGIN SCREEN ================= -->
+  <div id="loginSection" class="flex-1 flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-slate-900/90 backdrop-blur-xl border border-amber-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+      
+      <div class="text-center space-y-2">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center mx-auto shadow-lg text-white">
+          <i data-lucide="shield-check" class="w-8 h-8"></i>
+        </div>
+        <h1 class="font-yatra text-2xl text-amber-400">सुरक्षित एडमिन पोर्टल</h1>
+        <p class="text-xs text-slate-400">
+          रूपेश भारद्वाज • वार्ड नं. 5, नगर परिषद ब्यावर 2026
+        </p>
+      </div>
+
+      <!-- Error Alert -->
+      <div id="loginError" class="hidden p-3 rounded-xl bg-red-500/20 border border-red-500/50 text-red-300 text-xs flex items-center gap-2">
+        <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i>
+        <span id="loginErrorText">गलत यूजरनेम या पासवर्ड! कृपया दोबारा जांचें।</span>
+      </div>
+
+      <form id="adminLoginForm" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">यूजरनेम (Username)</label>
+          <div class="relative">
+            <i data-lucide="user" class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400"></i>
+            <input type="text" id="adminUser" required autocomplete="username" placeholder="admin" value="admin" maxlength="40" class="w-full pl-10 pr-4 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-white text-sm focus:border-amber-400 focus:outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">पासवर्ड (Password)</label>
+          <div class="relative">
+            <i data-lucide="lock" class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400"></i>
+            <input type="password" id="adminPass" required autocomplete="current-password" placeholder="••••••••••••" maxlength="64" class="w-full pl-10 pr-4 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-white text-sm focus:border-amber-400 focus:outline-none" />
+          </div>
+        </div>
+
+        <button type="submit" id="loginSubmitBtn" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-bold text-sm shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95">
+          <i data-lucide="log-in" class="w-4 h-4"></i>
+          <span>लॉगिन करें (Sign In)</span>
+        </button>
+      </form>
+
+      <div class="text-center pt-2">
+        <a href="index.html" class="text-xs text-slate-400 hover:text-amber-400 transition-colors flex items-center justify-center gap-1">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>मुख्य वेबसाइट पर वापस जाएं</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= DASHBOARD SCREEN (LOGGED IN) ================= -->
+  <div id="dashboardSection" class="hidden flex-1 flex flex-col">
+    
+    <!-- Top Navbar -->
+    <header class="bg-slate-900 border-b border-slate-800 px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-30 shadow-md">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center text-white font-bold">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <div class="font-yatra text-base sm:text-lg text-white">रूपेश भारद्वाज अभियान नियंत्रण कक्ष</div>
+          <div class="text-[11px] text-slate-400">वार्ड नं. 5, ब्यावर • सुरक्षित लाइव मैनेजमेंट</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-bold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>सुरक्षित सत्र (Active)</span>
+        </span>
+
+        <button onclick="handleLogout()" class="px-3.5 py-1.5 rounded-xl bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/30 text-xs font-bold flex items-center gap-1.5 transition-all">
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+          <span>लॉगआउट</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6 flex-1">
+      
+      <!-- Metrics Overview Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Metric 1 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg flex items-center justify-between">
+          <div>
+            <div class="text-xs text-slate-400 font-bold mb-1">कुल जन-समस्याएं</div>
+            <div id="statTotalGrievances" class="text-2xl sm:text-3xl font-extrabold text-amber-400 font-yatra">0</div>
+          </div>
+          <div class="w-11 h-11 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+            <i data-lucide="message-square-warning" class="w-6 h-6"></i>
+          </div>
+        </div>
+
+        <!-- Metric 2 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg flex items-center justify-between">
+          <div>
+            <div class="text-xs text-slate-400 font-bold mb-1">पंजीकृत समर्थक</div>
+            <div id="statTotalSupporters" class="text-2xl sm:text-3xl font-extrabold text-orange-400 font-yatra">0</div>
+          </div>
+          <div class="w-11 h-11 rounded-xl bg-orange-500/10 text-orange-400 flex items-center justify-center">
+            <i data-lucide="users" class="w-6 h-6"></i>
+          </div>
+        </div>
+
+        <!-- Metric 3 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg flex items-center justify-between">
+          <div>
+            <div class="text-xs text-slate-400 font-bold mb-1">लंबित समस्याएं</div>
+            <div id="statPendingGrievances" class="text-2xl sm:text-3xl font-extrabold text-rose-400 font-yatra">0</div>
+          </div>
+          <div class="w-11 h-11 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center">
+            <i data-lucide="clock" class="w-6 h-6"></i>
+          </div>
+        </div>
+
+        <!-- Metric 4 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg flex items-center justify-between">
+          <div>
+            <div class="text-xs text-slate-400 font-bold mb-1">समाधान की गई</div>
+            <div id="statResolvedGrievances" class="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-yatra">0</div>
+          </div>
+          <div class="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+            <i data-lucide="check-circle" class="w-6 h-6"></i>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Main Tables Section -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-3xl shadow-xl overflow-hidden flex flex-col">
+        
+        <!-- Controls Bar -->
+        <div class="p-4 sm:p-5 border-b border-slate-800 bg-slate-900/50 flex flex-wrap items-center justify-between gap-3">
+          
+          <!-- Tab Switches -->
+          <div class="flex items-center gap-2">
+            <button id="tabBtnGrievances" onclick="setDashboardTab('grievances')" class="px-4 py-2 rounded-xl bg-orange-600 text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center gap-1.5">
+              <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+              <span>जन-समस्याएं मंच (<span id="tabCountGrievances">0</span>)</span>
+            </button>
+            <button id="tabBtnSupporters" onclick="setDashboardTab('supporters')" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 font-bold text-xs sm:text-sm transition-all flex items-center gap-1.5">
+              <i data-lucide="heart-handshake" class="w-4 h-4"></i>
+              <span>समर्थक सूची (<span id="tabCountSupporters">0</span>)</span>
+            </button>
+          </div>
+
+          <!-- Export & Actions -->
+          <div class="flex items-center gap-2">
+            <button onclick="refreshData()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-colors" title="रिफ्रेश करें">
+              <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+            </button>
+            <button onclick="exportToCSV()" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md flex items-center gap-1.5 transition-all">
+              <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+              <span>Excel / CSV डाउनलोड</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Filter / Search Header -->
+        <div class="p-3.5 bg-slate-950/40 border-b border-slate-800 flex flex-wrap items-center gap-3">
+          <div class="relative flex-1 min-w-[200px]">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-400"></i>
+            <input type="text" id="adminSearchInput" oninput="applyFilters()" maxlength="100" placeholder="नाम, मोबाइल नंबर या मोहल्ले से खोजें..." class="w-full pl-9 pr-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400" />
+          </div>
+
+          <div id="grievanceFilterWrapper" class="flex items-center gap-2">
+            <select id="typeFilterSelect" onchange="applyFilters()" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none">
+              <option value="all">सभी समस्याएं (All Categories)</option>
+              <option value="पेयजल समस्या">पेयजल समस्या</option>
+              <option value="सड़क व नाली निर्माण">सड़क व नाली निर्माण</option>
+              <option value="स्ट्रीट लाइट / प्रकाश">स्ट्रीट लाइट / प्रकाश</option>
+              <option value="सफाई एवं कचरा">सफाई एवं कचरा</option>
+              <option value="अन्य">अन्य समस्या</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Table View: Grievances -->
+        <div id="grievancesTableView" class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-slate-950 text-slate-400 font-bold uppercase tracking-wider text-[11px] border-b border-slate-800">
+                <th class="p-3">दिनांक/समय</th>
+                <th class="p-3">नागरिक का नाम</th>
+                <th class="p-3">मोबाइल नंबर</th>
+                <th class="p-3">मोहल्ला / क्षेत्र</th>
+                <th class="p-3">समस्या श्रेणी</th>
+                <th class="p-3">समस्या विवरण</th>
+                <th class="p-3 text-center">स्थिति (Status)</th>
+                <th class="p-3 text-center">कॉल</th>
+              </tr>
+            </thead>
+            <tbody id="grievancesTableBody" class="divide-y divide-slate-800/60">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Table View: Supporters -->
+        <div id="supportersTableView" class="hidden overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-slate-950 text-slate-400 font-bold uppercase tracking-wider text-[11px] border-b border-slate-800">
+                <th class="p-3">क्र. सं.</th>
+                <th class="p-3">दिनांक/समय</th>
+                <th class="p-3">समर्थक का नाम</th>
+                <th class="p-3">मोहल्ला / क्षेत्र</th>
+                <th class="p-3">स्टेटस</th>
+              </tr>
+            </thead>
+            <tbody id="supportersTableBody" class="divide-y divide-slate-800/60">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 p-4 text-center text-xs text-slate-500">
+      रूपेश भारद्वाज चुनाव अभियान 2026 • वार्ड नं. 5, नगर परिषद ब्यावर (राजस्थान)
+    </footer>
+
+  </div>
+
+  <!-- Defensive Security & Script Logic -->
+  <script>
+    // 1. Salted SHA-256 Hash of Credentials (Plaintext password is NEVER stored in source code)
+    const AUTH_HASH = '32d3ed66de63be30080582fb7c2e9dac8874399f10d26891a88efdb3475db0f7';
+    const AUTH_SALT = 'beawar_w5_admin_secure_2026';
+
+    // 2. Cryptographic SHA-256 Helper using Web Crypto API
+    async function computeSHA256(text) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(text);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // 3. Robust HTML Escaping to prevent Stored XSS
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // 4. CSV Formula Injection Defense
+    function sanitizeForCSV(val) {
+      if (val === null || val === undefined) return '';
+      let str = String(val).replace(/"/g, '""');
+      if (/^[=+\-@\t\r]/.test(str)) {
+        str = "'" + str;
+      }
+      return `"${str}"`;
+    }
+
+    // 5. Brute-Force Rate Limiting
+    let failedAttempts = 0;
+    let lockoutTimer = null;
+
+    let currentTab = 'grievances';
+    let cachedGrievances = [];
+    let cachedSupporters = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+
+      // Check existing session
+      if (sessionStorage.getItem('ward5_admin_auth') === 'verified_session_token_2026') {
+        showDashboard();
+      }
+    });
+
+    async function handleLogin(e) {
+      e.preventDefault();
+
+      if (lockoutTimer) {
+        alert('अत्यधिक गलत प्रयासों के कारण लॉगिन अस्थायी रूप से लॉक है। कृपया थोड़ी देर बाद प्रयास करें।');
+        return;
+      }
+
+      const user = document.getElementById('adminUser').value.trim();
+      const pass = document.getElementById('adminPass').value;
+
+      const inputHash = await computeSHA256(`${user}:${pass}:${AUTH_SALT}`);
+
+      if (inputHash === AUTH_HASH) {
+        failedAttempts = 0;
+        sessionStorage.setItem('ward5_admin_auth', 'verified_session_token_2026');
+        document.getElementById('loginError').classList.add('hidden');
+        showDashboard();
+      } else {
+        failedAttempts++;
+        const errorBox = document.getElementById('loginError');
+        const errorText = document.getElementById('loginErrorText');
+        errorBox.classList.remove('hidden');
+
+        if (failedAttempts >= 5) {
+          errorText.textContent = 'अत्यधिक गलत प्रयास! सुरक्षा हेतु 30 सेकंड के लिए लॉक किया गया।';
+          document.getElementById('loginSubmitBtn').disabled = true;
+          lockoutTimer = setTimeout(() => {
+            lockoutTimer = null;
+            failedAttempts = 0;
+            document.getElementById('loginSubmitBtn').disabled = false;
+            errorBox.classList.add('hidden');
+          }, 30000);
+        } else {
+          errorText.textContent = `गलत यूजरनेम या पासवर्ड! (प्रयास: ${failedAttempts}/5)`;
+        }
+      }
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('ward5_admin_auth');
+      document.getElementById('dashboardSection').classList.add('hidden');
+      document.getElementById('loginSection').classList.remove('hidden');
+      document.getElementById('adminPass').value = '';
+    }
+
+    function showDashboard() {
+      document.getElementById('loginSection').classList.add('hidden');
+      document.getElementById('dashboardSection').classList.remove('hidden');
+      refreshData();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function setDashboardTab(tab) {
+      currentTab = tab;
+      const gView = document.getElementById('grievancesTableView');
+      const sView = document.getElementById('supportersTableView');
+      const gBtn = document.getElementById('tabBtnGrievances');
+      const sBtn = document.getElementById('tabBtnSupporters');
+      const fWrap = document.getElementById('grievanceFilterWrapper');
+
+      if (tab === 'grievances') {
+        gView.classList.remove('hidden');
+        sView.classList.add('hidden');
+        fWrap.classList.remove('hidden');
+        gBtn.className = 'px-4 py-2 rounded-xl bg-orange-600 text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center gap-1.5';
+        sBtn.className = 'px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 font-bold text-xs sm:text-sm transition-all flex items-center gap-1.5';
+      } else {
+        gView.classList.add('hidden');
+        sView.classList.remove('hidden');
+        fWrap.classList.add('hidden');
+        sBtn.className = 'px-4 py-2 rounded-xl bg-orange-600 text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center gap-1.5';
+        gBtn.className = 'px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 font-bold text-xs sm:text-sm transition-all flex items-center gap-1.5';
+      }
+    }
+
+    function refreshData() {
+      // 1. Initial render from local cache
+      loadLocalData();
+      renderAll();
+
+      // 2. Fetch live data from Serverless Backend API (reads process.env.SUPABASE_URL securely)
+      fetch('/api/admin-data')
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.grievances) {
+            cachedGrievances = data.grievances.map(item => ({
+              id: item.id,
+              date: item.created_at ? new Date(item.created_at).toLocaleString('en-IN') : 'हाल ही में',
+              name: item.name,
+              phone: item.phone,
+              area: item.area,
+              type: item.problem_type,
+              detail: item.detail,
+              status: item.status || 'लंबित'
+            }));
+            localStorage.setItem('beawar_w5_grievances', JSON.stringify(cachedGrievances));
+          }
+
+          if (data && data.supporters) {
+            cachedSupporters = data.supporters.map(item => ({
+              id: item.id,
+              date: item.created_at ? new Date(item.created_at).toLocaleString('en-IN') : 'हाल ही में',
+              name: item.name,
+              area: item.area
+            }));
+            localStorage.setItem('beawar_w5_supporters_list', JSON.stringify(cachedSupporters));
+          }
+
+          renderAll();
+        })
+        .catch(err => {
+          console.warn('Serverless API fetch warning (using local data):', err);
+        });
+    }
+
+    function loadLocalData() {
+      const gLocal = localStorage.getItem('beawar_w5_grievances');
+      cachedGrievances = gLocal ? JSON.parse(gLocal) : [];
+
+      const sLocal = localStorage.getItem('beawar_w5_supporters_list');
+      cachedSupporters = sLocal ? JSON.parse(sLocal) : [];
+    }
+
+    function renderAll() {
+      document.getElementById('statTotalGrievances').textContent = cachedGrievances.length;
+      document.getElementById('statTotalSupporters').textContent = cachedSupporters.length;
+      
+      const pending = cachedGrievances.filter(g => (g.status || '').includes('लंबित') || !g.status).length;
+      const resolved = cachedGrievances.filter(g => (g.status || '').includes('समाधान')).length;
+
+      document.getElementById('statPendingGrievances').textContent = pending;
+      document.getElementById('statResolvedGrievances').textContent = resolved;
+
+      document.getElementById('tabCountGrievances').textContent = cachedGrievances.length;
+      document.getElementById('tabCountSupporters').textContent = cachedSupporters.length;
+
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const search = document.getElementById('adminSearchInput').value.toLowerCase();
+      const type = document.getElementById('typeFilterSelect').value;
+
+      const filteredG = cachedGrievances.filter(g => {
+        const matchesSearch = (g.name || '').toLowerCase().includes(search) || 
+                              (g.phone || '').includes(search) || 
+                              (g.area || '').toLowerCase().includes(search);
+        const matchesType = type === 'all' || g.type === type;
+        return matchesSearch && matchesType;
+      });
+
+      const filteredS = cachedSupporters.filter(s => {
+        return (s.name || '').toLowerCase().includes(search) || 
+               (s.area || '').toLowerCase().includes(search);
+      });
+
+      renderGrievanceTable(filteredG);
+      renderSupportersTable(filteredS);
+    }
+
+    function renderGrievanceTable(list) {
+      const tbody = document.getElementById('grievancesTableBody');
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-500">कोई समस्या रिकॉर्ड नहीं मिली।</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map((g, idx) => {
+        let statusBadge = 'bg-amber-500/20 text-amber-400 border border-amber-500/30';
+        if ((g.status || '').includes('समाधान')) {
+          statusBadge = 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+        } else if ((g.status || '').includes('प्रगति')) {
+          statusBadge = 'bg-blue-500/20 text-blue-400 border border-blue-500/30';
+        }
+
+        const safeDate = escapeHtml(g.date);
+        const safeName = escapeHtml(g.name);
+        const safePhone = escapeHtml(g.phone);
+        const safeArea = escapeHtml(g.area);
+        const safeType = escapeHtml(g.type);
+        const safeDetail = escapeHtml(g.detail);
+        const cleanPhone = String(g.phone || '').replace(/[^0-9+]/g, '');
+
+        return `
+          <tr class="hover:bg-slate-800/40 transition-colors">
+            <td class="p-3 text-slate-400 text-[11px] whitespace-nowrap">${safeDate}</td>
+            <td class="p-3 font-bold text-white">${safeName}</td>
+            <td class="p-3 font-mono text-amber-400 font-bold whitespace-nowrap">${safePhone}</td>
+            <td class="p-3 text-slate-300">${safeArea}</td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 text-[10px] font-bold">${safeType}</span></td>
+            <td class="p-3 text-slate-300 max-w-xs break-words">${safeDetail}</td>
+            <td class="p-3 text-center">
+              <select onchange="updateStatus(${idx}, this.value)" class="px-2 py-1 rounded-lg text-[10px] font-bold ${statusBadge} bg-slate-900 border focus:outline-none cursor-pointer">
+                <option value="लंबित" ${(!g.status || g.status === 'लंबित') ? 'selected' : ''}>⏳ लंबित</option>
+                <option value="प्रगति पर" ${g.status === 'प्रगति पर' ? 'selected' : ''}>🔄 प्रगति पर</option>
+                <option value="समाधान हो गया" ${g.status === 'समाधान हो गया' ? 'selected' : ''}>✅ समाधान हो गया</option>
+              </select>
+            </td>
+            <td class="p-3 text-center">
+              <a href="tel:${cleanPhone}" class="inline-flex p-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white transition-colors" title="कॉल करें">
+                <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+              </a>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderSupportersTable(list) {
+      const tbody = document.getElementById('supportersTableBody');
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-500">कोई समर्थक रिकॉर्ड नहीं मिला।</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map((s, i) => {
+        const safeDate = escapeHtml(s.date);
+        const safeName = escapeHtml(s.name);
+        const safeArea = escapeHtml(s.area);
+
+        return `
+          <tr class="hover:bg-slate-800/40 transition-colors">
+            <td class="p-3 text-slate-500 font-mono">${i + 1}</td>
+            <td class="p-3 text-slate-400 text-[11px] whitespace-nowrap">${safeDate}</td>
+            <td class="p-3 font-bold text-amber-300">${safeName}</td>
+            <td class="p-3 text-slate-300">${safeArea}</td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">सक्रिय समर्थक</span></td>
+          </tr>
+        `;
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function updateStatus(index, newStatus) {
+      const item = cachedGrievances[index];
+      if (!item) return;
+      item.status = newStatus;
+      localStorage.setItem('beawar_w5_grievances', JSON.stringify(cachedGrievances));
+
+      if (item.id) {
+        fetch('/api/admin-data', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'update_status',
+            id: item.id,
+            status: newStatus
+          })
+        }).then(res => res.json()).then(() => {
+          console.log('✅ Status synced to Supabase Cloud via serverless API');
+        }).catch(err => {
+          console.warn('Status update API deferred:', err);
+        });
+      }
+      renderAll();
+    }
+
+    function exportToCSV() {
+      if (currentTab === 'grievances') {
+        let csv = 'ID,Date,Name,Mobile,Area,Type,Detail,Status\n';
+        cachedGrievances.forEach((g, i) => {
+          csv += `${sanitizeForCSV(i+1)},${sanitizeForCSV(g.date)},${sanitizeForCSV(g.name)},${sanitizeForCSV(g.phone)},${sanitizeForCSV(g.area)},${sanitizeForCSV(g.type)},${sanitizeForCSV(g.detail)},${sanitizeForCSV(g.status || 'लंबित')}\n`;
+        });
+        downloadBlob(csv, `Ward5_Grievances_${new Date().toISOString().slice(0, 10)}.csv`);
+      } else {
+        let csv = 'ID,Date,Name,Area\n';
+        cachedSupporters.forEach((s, i) => {
+          csv += `${sanitizeForCSV(i+1)},${sanitizeForCSV(s.date)},${sanitizeForCSV(s.name)},${sanitizeForCSV(s.area)}\n`;
+        });
+        downloadBlob(csv, `Ward5_Supporters_${new Date().toISOString().slice(0, 10)}.csv`);
+      }
+    }
+
+    function downloadBlob(content, filename) {
+      const blob = new Blob(["\uFEFF" + content], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>
