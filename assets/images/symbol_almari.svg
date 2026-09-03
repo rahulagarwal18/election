@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <!-- Rich Golden Gradient -->
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="40%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="doorL" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fffbeb" />
+      <stop offset="100%" stop-color="#fde68a" />
+    </linearGradient>
+    <linearGradient id="doorR" x1="100%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#fffbeb" />
+      <stop offset="100%" stop-color="#fde68a" />
+    </linearGradient>
+    <!-- Soft Drop Shadow -->
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <!-- Top Crown Pediment / Moulding -->
+    <path d="M 18 16 L 102 16 L 98 22 L 22 22 Z" fill="#b45309" stroke="#78350f" stroke-width="1.5" />
+    <rect x="20" y="14" width="80" height="4" rx="1.5" fill="#fef08a" />
+
+    <!-- Main Outer Almirah Cabinet Body -->
+    <rect x="22" y="21" width="76" height="80" rx="3" fill="url(#bodyGrad)" stroke="#78350f" stroke-width="2.5" />
+
+    <!-- Left Door Panel -->
+    <rect x="26" y="25" width="33" height="71" rx="2" fill="url(#doorL)" stroke="#b45309" stroke-width="1.5" />
+    <!-- Left Door Inner Embossed Bevels -->
+    <rect x="29" y="28" width="27" height="31" rx="2" fill="none" stroke="#d97706" stroke-width="1.2" />
+    <rect x="29" y="62" width="27" height="31" rx="2" fill="none" stroke="#d97706" stroke-width="1.2" />
+
+    <!-- Right Door Panel -->
+    <rect x="61" y="25" width="33" height="71" rx="2" fill="url(#doorR)" stroke="#b45309" stroke-width="1.5" />
+    <!-- Right Door Inner Embossed Bevels -->
+    <rect x="64" y="28" width="27" height="31" rx="2" fill="none" stroke="#d97706" stroke-width="1.2" />
+    <rect x="64" y="62" width="27" height="31" rx="2" fill="none" stroke="#d97706" stroke-width="1.2" />
+
+    <!-- Center Dividing Line -->
+    <line x1="60" y1="24" x2="60" y2="97" stroke="#78350f" stroke-width="2.2" />
+
+    <!-- Handle & Lock Assembly -->
+    <!-- Left Handle -->
+    <rect x="54" y="55" width="3.5" height="12" rx="1.5" fill="#78350f" />
+    <circle cx="55.8" cy="57" r="1.5" fill="#fbbf24" />
+    
+    <!-- Right Handle -->
+    <rect x="62.5" y="55" width="3.5" height="12" rx="1.5" fill="#78350f" />
+    <circle cx="64.2" cy="57" r="1.5" fill="#fbbf24" />
+
+    <!-- Central Keyhole & Shield Lock Plate -->
+    <circle cx="60" cy="52" r="3" fill="#78350f" />
+    <circle cx="60" cy="52" r="1.5" fill="#fef08a" />
+    <line x1="60" y1="53" x2="60" y2="55" stroke="#78350f" stroke-width="1.2" />
+
+    <!-- Bottom Plinth Base Bar -->
+    <rect x="22" y="97" width="76" height="5" fill="#92400e" stroke="#78350f" stroke-width="1.2" />
+
+    <!-- Left Leg -->
+    <polygon points="26,102 32,102 30,109 24,109" fill="#78350f" stroke="#b45309" stroke-width="1" />
+    <!-- Right Leg -->
+    <polygon points="88,102 94,102 96,109 90,109" fill="#78350f" stroke="#b45309" stroke-width="1" />
+  </g>
+</svg>

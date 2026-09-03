@@ -163,7 +163,32 @@ body {
 
 .badge-3d-right {
   z-index: 30;
-  box-shadow: 0 12px 30px -5px rgba(234, 88, 12, 0.7), 0 0 20px rgba(251, 191, 36, 0.5);
+  box-shadow: 0 12px 30px -5px rgba(234, 88, 12, 0.7), 0 0 25px rgba(251, 191, 36, 0.6);
+}
+
+/* Almari Symbol Glow & 3D Lighting */
+@keyframes almariPulse {
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(245, 158, 11, 0.35), 0 15px 35px rgba(0, 0, 0, 0.6);
+    border-color: rgba(251, 191, 36, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(234, 88, 12, 0.55), 0 20px 45px rgba(0, 0, 0, 0.75);
+    border-color: rgba(245, 158, 11, 1);
+  }
+}
+
+.almari-glow-card {
+  animation: almariPulse 3.5s ease-in-out infinite;
+}
+
+.almari-3d-symbol {
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.almari-3d-symbol:hover {
+  transform: scale(1.08) translateY(-3px);
 }
 
 /* ==========================================================================
